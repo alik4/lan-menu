@@ -7,16 +7,19 @@
     "build": "next build",
     "start": "next start",
     "prisma:seed": "tsx prisma/seed.ts"
+    "deploy": "npx opennextjs-cloudflare && npx wrangler deploy"
+
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
-    "next": "14.2.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "next": "^16.3.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.6",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.0",
