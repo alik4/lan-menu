@@ -1,0 +1,224 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.header {
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 20px 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  margin: 10px 0 5px 0;
+  color: #333;
+}
+
+.header p {
+  color: #999;
+  margin: 0;
+  font-size: 13px;
+}
+
+.backBtn {
+  padding: 8px 12px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.backBtn:hover {
+  background: #e0e0e0;
+}
+
+.main {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.addBtn {
+  padding: 8px 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.addBtn:hover {
+  background: #5568d3;
+}
+
+.form {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+}
+
+.form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.formButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.formButtons button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.formButtons button:first-child {
+  background: #667eea;
+  color: white;
+}
+
+.formButtons button:first-child:hover {
+  background: #5568d3;
+}
+
+.cancelBtn {
+  background: #f0f0f0 !important;
+  color: #333 !important;
+}
+
+.cancelBtn:hover {
+  background: #e0e0e0 !important;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  padding: 12px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.item:hover {
+  background: #f0f0f0;
+  border-color: #ddd;
+}
+
+.item.selected {
+  background: #e8eaf6;
+  border-color: #667eea;
+  font-weight: bold;
+}
+
+.item strong {
+  display: block;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.item p {
+  margin: 0;
+  color: #999;
+  font-size: 12px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itemCard {
+  padding: 12px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.itemCard h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.description {
+  color: #999;
+  font-size: 12px;
+  margin: 0;
+}
+
+.itemPrice {
+  color: #667eea;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.property {
+  color: #999;
+  font-size: 13px;
+}

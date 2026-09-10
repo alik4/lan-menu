@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// One of your three hotels: Hotel, Suite, Plaza
+model Property {
+  id      String   @id @default(cuid())
+  name    String
+  slug    String   @unique
+  outlets Outlet[]
+
+  createdAt DateTime @default(now())
+}
+
+// A single menu website: Dweik, Room Service (Hotel), Fumebar, Prime 18, Lancs, etc.
+// Slug is what shows up in the QR code URL, e.g. /menu/dweik
+model Outlet {
+  id         String    @id @default(cuid())
+  name       String
+  slug       String    @unique
+  property   Property  @relation(fields: [propertyId], references: [id])
+  propertyId String
+  sections   Section[]
+  admins     AdminOutlet[]
+
+  createdAt DateTime @default(now())
+}
+
+// food / beverage / shisha - scoped per outlet since not every outlet needs all three
+model Section {
+  id           String     @id @default(cuid())
+  name         String
+  displayOrder Int        @default(0)
+  outlet       Outlet     @relation(fields: [outletId], references: [id])
+  outletId     String
+  categories   Category[]
+
+  createdAt DateTime @default(now())
+}
+
+// The tabs inside a section: breakfast, oven, dessert, main course, etc.
+// "View all" is not a row here - it is UI logic that shows every category's items.
+model Category {
+  id           String   @id @default(cuid())
+  name         String
+  displayOrder Int      @default(0)
+  section      Section  @relation(fields: [sectionId], references: [id])
+  sectionId    String
+  items        Item[]
+
+  createdAt DateTime @default(now())
+}
+
+model Item {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  price        Decimal  @db.Decimal(10, 2)
+  imagePath    String?
+  active       Boolean  @default(true)
+  displayOrder Int      @default(0)
+  category     Category @relation(fields: [categoryId], references: [id])
+  categoryId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Admin with role-based permissions
+// Role: "super_admin" has all perms across all outlets
+// Role: "outlet_admin" has perms only for assigned outlets
+model Admin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  role         String   @default("outlet_admin") // "super_admin" or "outlet_admin"
+  outlets      AdminOutlet[] // Outlets this admin manages (empty if super_admin)
+
+  createdAt DateTime @default(now())
+}
+
+// Junction table: connects admins to outlets they manage
+// super_admin admins have no rows here (they manage everything)
+// outlet_admin admins have one row per managed outlet
+model AdminOutlet {
+  id        String   @id @default(cuid())
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  adminId   String
+  outlet    Outlet   @relation(fields: [outletId], references: [id], onDelete: Cascade)
+  outletId  String
+
+  @@unique([adminId, outletId])
+}
