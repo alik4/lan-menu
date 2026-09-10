@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { outletId: string; sectionId: string } }
+  { params }: { params: Promise<{ outletId: string; sectionId: string }> }
 ) {
   const token = getTokenFromRequest(req);
 
@@ -19,7 +19,7 @@ export async function POST(
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 
-  const { outletId, sectionId } = params;
+  const { outletId, sectionId } = await params;
 
   const hasAccess = await canAccessOutlet(payload.adminId, outletId, payload.role);
 

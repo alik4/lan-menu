@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { outletId: string } }
+  { params }: { params: Promise<{ outletId: string }> }
 ) {
   const token = getTokenFromRequest(req);
   if (!token) {
@@ -17,7 +17,7 @@ export async function GET(
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 
-  const { outletId } = params;
+  const { outletId } = await params;
 
   const hasAccess = await canAccessOutlet(payload.adminId, outletId, payload.role);
   if (!hasAccess) {
@@ -54,7 +54,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { outletId: string } }
+  { params }: { params: Promise<{ outletId: string }> }
 ) {
   const token = getTokenFromRequest(req);
 
@@ -68,7 +68,7 @@ export async function POST(
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 
-  const { outletId } = params;
+  const { outletId } = await params;
 
   const hasAccess = await canAccessOutlet(payload.adminId, outletId, payload.role);
 

@@ -5,27 +5,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { outletId: string; sectionId: string } }
+  { params }: { params: Promise<{ outletId: string; sectionId: string }> }
 ) {
-  const token = getTokenFromRequest(req);
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const payload = verifyToken(token);
-  if (!payload) {
-    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
-  }
-
-  const { outletId, sectionId } = params;
-
-  const hasAccess = await canAccessOutlet(payload.adminId, outletId, payload.role);
-  if (!hasAccess) {
-    return NextResponse.json(
-      { error: "You do not have access to this outlet" },
-      { status: 403 }
-    );
-  }
+  const { outletId, sectionId } = await params;
 
   const section = await prisma.section.findUnique({
     where: { id: sectionId },
@@ -48,7 +30,7 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { outletId: string; sectionId: string } }
+  { params }: { params: Promise<{ outletId: string; sectionId: string }> }
 ) {
   const token = getTokenFromRequest(req);
 
@@ -62,7 +44,7 @@ export async function PATCH(
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 
-  const { outletId, sectionId } = params;
+  const { outletId, sectionId } = await params;
 
   const hasAccess = await canAccessOutlet(payload.adminId, outletId, payload.role);
 
@@ -96,7 +78,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { outletId: string; sectionId: string } }
+  { params }: { params: Promise<{ outletId: string; sectionId: string }> }
 ) {
   const token = getTokenFromRequest(req);
 
@@ -110,7 +92,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 
-  const { outletId, sectionId } = params;
+  const { outletId, sectionId } = await params;
 
   const hasAccess = await canAccessOutlet(payload.adminId, outletId, payload.role);
 
